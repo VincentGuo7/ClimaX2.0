@@ -35,8 +35,8 @@ COPY environment.yml /tmp/environment.yml
 
 # Create environment
 ENV PATH=/opt/conda/bin:${PATH}
-ENV conda update -n base conda
-RUN conda env create -f /tmp/environment.yml
+RUN conda update -n base -y conda && \
+    conda env create -f /tmp/environment.yml
 
 SHELL ["conda", "run", "-n", "climaX", "/bin/bash", "-c"]
 

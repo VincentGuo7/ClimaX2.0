@@ -2,20 +2,22 @@ seed_everything: 42
 
 # ---------------------------- TRAINER -------------------------------------------
 trainer:
-  default_root_dir: ${oc.env:OUTPUT_DIR,/home/t-tungnguyen/ClimaX/exps/regional_forecast_climax}
+  default_root_dir: ${oc.env:OUTPUT_DIR,/workspace/climax_logs}
+
+  limit_val_batches: 1.0
 
   precision: 16
 
-  gpus: null
   num_nodes: 1
   accelerator: gpu
-  strategy: ddp
+  devices: 1
+  strategy: single_device
 
   min_epochs: 1
-  max_epochs: 100
+  max_epochs: 10
   enable_progress_bar: true
 
-  sync_batchnorm: True
+  sync_batchnorm: False
   enable_checkpointing: True
   resume_from_checkpoint: null
 
@@ -67,11 +69,11 @@ model:
   beta_1: 0.9
   beta_2: 0.99
   weight_decay: 1e-5
-  warmup_epochs: 10000
-  max_epochs: 100000
+  warmup_epochs: 2
+  max_epochs: 10
   warmup_start_lr: 1e-8
   eta_min: 1e-8
-  pretrained_path: ""
+  pretrained_path: ./pretrained_checkpoints/1.40625deg.ckpt
 
   net:
     class_path: climax.regional_forecast.arch.RegionalClimaX
@@ -128,7 +130,7 @@ model:
         ]
       img_size: [32, 64]
       patch_size: 2
-      embed_dim: 1024
+      embed_dim: 512
       depth: 8
       decoder_depth: 2
       num_heads: 16
@@ -190,10 +192,10 @@ data:
       "specific_humidity_925",
     ]
   out_variables: ["geopotential_500", "temperature_850", "2m_temperature", "10m_u_component_of_wind", "10m_v_component_of_wind"]
-  region: "NorthAmerica"
+  region: "EasternAustralia"
   predict_range: 72
   hrs_each_step: 1
   buffer_size: 10000
-  batch_size: 128
-  num_workers: 1
-  pin_memory: False
+  batch_size: 8
+  num_workers: 2
+  pin_memory: True
