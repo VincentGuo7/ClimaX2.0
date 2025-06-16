@@ -2,6 +2,7 @@
 # Licensed under the MIT license.
 
 import os
+import torch
 
 from climax.regional_forecast.datamodule import RegionalForecastDataModule
 from climax.regional_forecast.module import RegionalForecastModule
@@ -20,6 +21,18 @@ def main():
         parser_kwargs={"parser_mode": "omegaconf", "error_handler": None},
     )
     os.makedirs(cli.trainer.default_root_dir, exist_ok=True)
+
+    # Force root_device to GPU to avoid the error
+    if torch.cuda.is_available():
+        cli.trainer = cli.trainer.__class__(
+        accelerator="gpu",
+        devices=1,
+        precision=16,
+        default_root_dir=cli.trainer.default_root_dir,
+        callbacks=cli.trainer.callbacks,
+        logger=cli.trainer.logger,
+        max_epochs=cli.trainer.max_epochs,
+    )
 
     cli.datamodule.set_patch_size(cli.model.get_patch_size())
 
