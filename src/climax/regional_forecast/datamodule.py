@@ -62,7 +62,7 @@ class RegionalForecastDataModule(LightningDataModule):
         region: str = 'NorthAmerica',
         predict_range: int = 6,
         hrs_each_step: int = 1,
-        batch_size: int = 64,
+        batch_size: int = 8,
         num_workers: int = 0,
         pin_memory: bool = False,
     ):
