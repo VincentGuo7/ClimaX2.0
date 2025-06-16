@@ -9,7 +9,7 @@ import numpy as np
 import xarray as xr
 from tqdm import tqdm
 
-from climax.utils.data_utils import DEFAULT_PRESSURE_LEVELS, NAME_TO_VAR
+from src.climax.utils.data_utils import DEFAULT_PRESSURE_LEVELS, NAME_TO_VAR
 
 HOURS_PER_YEAR = 8760  # 365-day year
 
