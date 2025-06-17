@@ -19,7 +19,7 @@ trainer:
 
   sync_batchnorm: False
   enable_checkpointing: True
-  resume_from_checkpoint: /workspace/climax_logs/checkpoints/last.ckpt
+  resume_from_checkpoint: /workspace/climax_logs/checkpoints/last-v1.ckpt
 
   # debugging
   fast_dev_run: false
