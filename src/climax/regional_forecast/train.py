@@ -45,6 +45,8 @@ def main():
     cli.model.set_val_clim(cli.datamodule.val_clim)
     cli.model.set_test_clim(cli.datamodule.test_clim)
 
+    torch.cuda.empty_cache()
+
     # fit() runs the training
     cli.trainer.fit(cli.model, datamodule=cli.datamodule)
 
