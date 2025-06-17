@@ -158,7 +158,7 @@ class RegionalForecastModule(LightningModule):
                 loss_dict[var],
                 on_step=False,
                 on_epoch=True,
-                prog_bar=False,
+                prog_bar=True,
                 sync_dist=True,
             )
         return loss_dict
