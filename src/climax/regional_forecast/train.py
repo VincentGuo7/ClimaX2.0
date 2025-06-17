@@ -48,7 +48,7 @@ def main():
     torch.cuda.empty_cache()
 
     # fit() runs the training
-    cli.trainer.fit(cli.model, datamodule=cli.datamodule)
+    cli.trainer.fit(cli.model, datamodule=cli.datamodule, ckpt_path="/workspace/climax_logs/checkpoints/last-v1.ckpt")
 
     # test the trained model
     cli.trainer.test(cli.model, datamodule=cli.datamodule, ckpt_path="best")
