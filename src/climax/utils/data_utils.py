@@ -9,8 +9,8 @@ NAME_TO_VAR = {
     "10m_v_component_of_wind": "v10",
     "mean_sea_level_pressure": "msl",
     "surface_pressure": "sp",
-    "toa_incident_solar_radiation": "tisr",
-    "total_precipitation": "tp",
+    # "toa_incident_solar_radiation": "tisr",
+    # "total_precipitation": "tp",
     "land_sea_mask": "lsm",
     "orography": "orography",
     "lattitude": "lat2d",
@@ -30,8 +30,8 @@ SINGLE_LEVEL_VARS = [
     "10m_v_component_of_wind",
     "mean_sea_level_pressure",
     "surface_pressure",
-    "toa_incident_solar_radiation",
-    "total_precipitation",
+    # "toa_incident_solar_radiation",
+    # "total_precipitation",
     "land_sea_mask",
     "orography",
     "lattitude",
@@ -44,7 +44,7 @@ PRESSURE_LEVEL_VARS = [
     "relative_humidity",
     "specific_humidity",
 ]
-DEFAULT_PRESSURE_LEVELS = [50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 850, 925, 1000]
+DEFAULT_PRESSURE_LEVELS = [50, 250, 500, 600, 700, 850, 925]
 
 NAME_LEVEL_TO_VAR_LEVEL = {}
 
