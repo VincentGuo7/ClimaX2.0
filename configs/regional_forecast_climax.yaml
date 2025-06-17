@@ -140,7 +140,7 @@ model:
 
 # ---------------------------- DATA -------------------------------------------
 data:
-  root_dir: /data/5.625deg_npz
+  root_dir: /data/5.625deg_npzAllVars
   variables: [
       "land_sea_mask",
       "orography",
