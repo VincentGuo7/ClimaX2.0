@@ -161,7 +161,6 @@ class RegionalForecastModule(LightningModule):
                 prog_bar=True,
                 sync_dist=True,
             )
-            
         return loss_dict
 
     def test_step(self, batch: Any, batch_idx: int):

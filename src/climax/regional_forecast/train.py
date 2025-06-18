@@ -48,15 +48,20 @@ def main():
 
     torch.cuda.empty_cache()
 
-    # fit() runs the training
-    checkpoint_path = "/workspace/climax_logs/checkpoints/last.ckpt"
+    # # fit() runs the training
+    # checkpoint_path = "/workspace/climax_logs/checkpoints/last.ckpt"
 
-    if os.path.exists(checkpoint_path):
-        cli.trainer.fit(cli.model, datamodule=cli.datamodule, ckpt_path=checkpoint_path)
-        print(f"✅ Resumed training from checkpoint: {checkpoint_path}")
-    else:
-        cli.trainer.fit(cli.model, datamodule=cli.datamodule)
-        print("🚀 Starting training from scratch (no checkpoint found).")
+    # if os.path.exists(checkpoint_path):
+    #     cli.trainer.fit(cli.model, datamodule=cli.datamodule, ckpt_path=checkpoint_path)
+    #     print(f"✅ Resumed training from checkpoint: {checkpoint_path}")
+    # else:
+    #     cli.trainer.fit(cli.model, datamodule=cli.datamodule)
+    #     print("🚀 Starting training from scratch (no checkpoint found).")
+
+
+    cli.trainer.fit(cli.model, datamodule=cli.datamodule)
+    # cli.trainer.fit(cli.model, datamodule=cli.datamodule, ckpt_path="/workspace/climax_logs/checkpoints/last.ckpt")
+
 
     cli.trainer.test(cli.model, datamodule=cli.datamodule, ckpt_path="best")
 
