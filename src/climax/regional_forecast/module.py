@@ -5,6 +5,7 @@
 from typing import Any
 
 import torch
+from torch import tensor, Tensor
 from pytorch_lightning import LightningModule
 from torchvision.transforms import transforms
 
@@ -212,7 +213,8 @@ class RegionalForecastModule(LightningModule):
         # Reduce across batches
         avg_metrics = {}
         for key in outputs[0].keys():
-            avg_metrics[key] = torch.stack([o[key] for o in outputs]).mean()
+            values = [v if isinstance(v, Tensor) else tensor(v) for v in [o[key] for o in outputs]]
+            avg_metrics[key] = torch.stack(values).mean()
 
         self.test_metrics = avg_metrics  # store for later access
         for k, v in avg_metrics.items():

@@ -49,7 +49,7 @@ def main():
     torch.cuda.empty_cache()
 
     # fit() runs the training
-    checkpoint_path = "/workspace/climax_logs/checkpoints/last.ckpt"
+    checkpoint_path = os.path.join(cli.trainer.default_root_dir, "checkpoints", "last.ckpt")
 
     if os.path.exists(checkpoint_path):
         cli.trainer.fit(cli.model, datamodule=cli.datamodule, ckpt_path=checkpoint_path)
