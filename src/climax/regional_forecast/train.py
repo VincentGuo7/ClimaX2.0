@@ -63,7 +63,7 @@ def main():
     test_results = cli.trainer.test(cli.model, datamodule=cli.datamodule, ckpt_path="best")
     
     os.makedirs(f"{cli.trainer.default_root_dir}/metrics", exist_ok=True)
-    results_path = os.path.join(cli.trainer.default_root_dir, "metrics", "test_metrics.csv")
+    results_path = os.path.join(cli.trainer.default_root_dir, "metrics", "test_metrics_3days_10epochs.csv")
     pd.DataFrame(test_results).to_csv(results_path, index=False)
     print(f"\n✅ Test metrics saved to: {results_path}")
 
