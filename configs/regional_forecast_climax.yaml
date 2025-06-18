@@ -14,7 +14,7 @@ trainer:
   strategy: single_device
 
   min_epochs: 1
-  max_epochs: 1
+  max_epochs: 2
   enable_progress_bar: true
 
   sync_batchnorm: False
@@ -44,7 +44,7 @@ trainer:
         dirpath: "${trainer.default_root_dir}/checkpoints"
         monitor: "val/w_rmse" # name of the logged metric which determines when model is improving
         mode: "min" # "max" means higher metric value is better, can be also "min"
-        save_top_k: 3 # save k best models (determined by above metric)
+        save_top_k: 2 # save k best models (determined by above metric)
         save_last: True # additionaly always save model from last epoch
         verbose: True
         filename: "epoch_{epoch:03d}"
