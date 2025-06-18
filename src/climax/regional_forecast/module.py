@@ -107,6 +107,7 @@ class RegionalForecastModule(LightningModule):
 
     def training_step(self, batch: Any, batch_idx: int):
         x, y, lead_times, variables, out_variables, region_info = batch
+        batch_size = x.size(0)
 
         loss_dict, _ = self.net.forward(
             x, y, lead_times, variables, out_variables, [lat_weighted_mse], lat=self.lat, region_info=region_info
@@ -119,6 +120,7 @@ class RegionalForecastModule(LightningModule):
                 on_step=True,
                 on_epoch=False,
                 prog_bar=True,
+                batch_size=batch_size,
             )
         loss = loss_dict["loss"]
 
@@ -126,6 +128,7 @@ class RegionalForecastModule(LightningModule):
 
     def validation_step(self, batch: Any, batch_idx: int):
         x, y, lead_times, variables, out_variables, region_info = batch
+        batch_size = x.size(0)
 
         if self.pred_range < 24:
             log_postfix = f"{self.pred_range}_hours"
@@ -160,11 +163,13 @@ class RegionalForecastModule(LightningModule):
                 on_epoch=True,
                 prog_bar=True,
                 sync_dist=True,
+                batch_size=batch_size,
             )
         return loss_dict
 
     def test_step(self, batch: Any, batch_idx: int):
         x, y, lead_times, variables, out_variables, region_info = batch
+        batch_size = x.size(0)
 
         if self.pred_range < 24:
             log_postfix = f"{self.pred_range}_hours"
@@ -199,6 +204,7 @@ class RegionalForecastModule(LightningModule):
                 on_epoch=True,
                 prog_bar=False,
                 sync_dist=True,
+                batch_size=batch_size,
             )
         return loss_dict
     
