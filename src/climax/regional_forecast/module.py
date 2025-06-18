@@ -201,6 +201,16 @@ class RegionalForecastModule(LightningModule):
                 sync_dist=True,
             )
         return loss_dict
+    
+    def test_epoch_end(self, outputs):
+        # Reduce across batches
+        avg_metrics = {}
+        for key in outputs[0].keys():
+            avg_metrics[key] = torch.stack([o[key] for o in outputs]).mean()
+
+        self.test_metrics = avg_metrics  # store for later access
+        for k, v in avg_metrics.items():
+            self.log(f"test_epoch/{k}", v)
 
     def configure_optimizers(self):
         decay = []

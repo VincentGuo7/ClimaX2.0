@@ -48,30 +48,34 @@ def main():
 
     torch.cuda.empty_cache()
 
-    # # fit() runs the training
-    # checkpoint_path = "/workspace/climax_logs/checkpoints/last.ckpt"
+    # fit() runs the training
+    checkpoint_path = "/workspace/climax_logs/checkpoints/last.ckpt"
 
-    # if os.path.exists(checkpoint_path):
-    #     cli.trainer.fit(cli.model, datamodule=cli.datamodule, ckpt_path=checkpoint_path)
-    #     print(f"✅ Resumed training from checkpoint: {checkpoint_path}")
-    # else:
-    #     cli.trainer.fit(cli.model, datamodule=cli.datamodule)
-    #     print("🚀 Starting training from scratch (no checkpoint found).")
+    if os.path.exists(checkpoint_path):
+        cli.trainer.fit(cli.model, datamodule=cli.datamodule, ckpt_path=checkpoint_path)
+        print(f"✅ Resumed training from checkpoint: {checkpoint_path}")
+    else:
+        cli.trainer.fit(cli.model, datamodule=cli.datamodule)
+        print("🚀 Starting training from scratch (no checkpoint found).")
 
-
-    cli.trainer.fit(cli.model, datamodule=cli.datamodule)
+    # cli.trainer.fit(cli.model, datamodule=cli.datamodule)
     # cli.trainer.fit(cli.model, datamodule=cli.datamodule, ckpt_path="/workspace/climax_logs/checkpoints/last.ckpt")
 
 
+    # Run test and save results
     cli.trainer.test(cli.model, datamodule=cli.datamodule, ckpt_path="best")
+    os.makedirs(f"{cli.trainer.default_root_dir}/metrics", exist_ok=True)
 
-    # # Run test and save results
+    metrics = {
+        k: v.item() if isinstance(v, torch.Tensor) else v
+        for k, v in cli.model.test_metrics.items()
+    }
+
+    results_path = os.path.join(cli.trainer.default_root_dir, "metrics", "test_metrics_3days_1epochs.csv")
+    pd.DataFrame([metrics]).to_csv(results_path, index=False)
+    print(f"\n✅ Test metrics saved to: {results_path}")
+
     # test_results = cli.trainer.test(cli.model, datamodule=cli.datamodule, ckpt_path="best")
-    
-    # os.makedirs(f"{cli.trainer.default_root_dir}/metrics", exist_ok=True)
-    # results_path = os.path.join(cli.trainer.default_root_dir, "metrics", "test_metrics_3days_10epochs.csv")
-    # pd.DataFrame(test_results).to_csv(results_path, index=False)
-    # print(f"\n✅ Test metrics saved to: {results_path}")
 
 
 if __name__ == "__main__":
