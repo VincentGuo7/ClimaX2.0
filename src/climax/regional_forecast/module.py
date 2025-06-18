@@ -161,9 +161,7 @@ class RegionalForecastModule(LightningModule):
                 prog_bar=True,
                 sync_dist=True,
             )
-
-        if "w_rmse" in loss_dict:
-            print(f"Epoch {self.current_epoch} - val/w_rmse: {loss_dict['w_rmse'].item()}")
+            
         return loss_dict
 
     def test_step(self, batch: Any, batch_idx: int):
