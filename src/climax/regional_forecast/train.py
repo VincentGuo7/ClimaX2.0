@@ -3,6 +3,7 @@
 
 import os
 import torch
+import pandas as pd
 
 from climax.regional_forecast.datamodule import RegionalForecastDataModule
 from climax.regional_forecast.module import RegionalForecastModule
@@ -48,10 +49,23 @@ def main():
     torch.cuda.empty_cache()
 
     # fit() runs the training
-    cli.trainer.fit(cli.model, datamodule=cli.datamodule, ckpt_path="/workspace/climax_logs/checkpoints/last-v1.ckpt")
+    checkpoint_path = "/workspace/climax_logs/checkpoints/last.ckpt"
 
-    # test the trained model
-    cli.trainer.test(cli.model, datamodule=cli.datamodule, ckpt_path="best")
+    if os.path.exists(checkpoint_path):
+        cli.trainer.fit(cli.model, datamodule=cli.datamodule, ckpt_path=checkpoint_path)
+        print(f"✅ Resumed training from checkpoint: {checkpoint_path}")
+    else:
+        cli.trainer.fit(cli.model, datamodule=cli.datamodule)
+        print("🚀 Starting training from scratch (no checkpoint found).")
+
+
+    # Run test and save results
+    test_results = cli.trainer.test(cli.model, datamodule=cli.datamodule, ckpt_path="best")
+    
+    os.makedirs(f"{cli.trainer.default_root_dir}/metrics", exist_ok=True)
+    results_path = os.path.join(cli.trainer.default_root_dir, "metrics", "test_metrics.csv")
+    pd.DataFrame(test_results).to_csv(results_path, index=False)
+    print(f"\n✅ Test metrics saved to: {results_path}")
 
 
 if __name__ == "__main__":
