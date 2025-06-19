@@ -42,7 +42,6 @@ def main():
             max_epochs=cli.trainer.max_epochs,
             min_epochs=cli.trainer.min_epochs,
             num_nodes=cli.trainer.num_nodes,
-            sync_batchnorm=cli.trainer.sync_batchnorm,
             fast_dev_run=cli.trainer.fast_dev_run,
             limit_val_batches=cli.trainer.limit_val_batches,
         )
