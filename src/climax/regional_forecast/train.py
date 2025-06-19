@@ -11,8 +11,8 @@ from pytorch_lightning.cli import LightningCLI
 
 
 def main():
-    os.environ["PL_ACCELERATOR"] = "gpu"
-    os.environ["PL_DEVICES"] = "1"
+    # os.environ["PL_ACCELERATOR"] = "gpu"
+    # os.environ["PL_DEVICES"] = "1"
     # Initialize Lightning with the model and data modules, and instruct it to parse the config yml
     cli = LightningCLI(
         model_class=RegionalForecastModule,
@@ -29,17 +29,25 @@ def main():
     )
     os.makedirs(cli.trainer.default_root_dir, exist_ok=True)
 
-    # # Force root_device to GPU to avoid the error
-    # if torch.cuda.is_available():
-    #     cli.trainer = cli.trainer.__class__(
-    #     accelerator="gpu",
-    #     devices=1,
-    #     precision=16,
-    #     default_root_dir=cli.trainer.default_root_dir,
-    #     callbacks=cli.trainer.callbacks,
-    #     logger=cli.trainer.logger,
-    #     max_epochs=cli.trainer.max_epochs,
-    # )
+    # Force root_device to GPU to avoid the error
+    if torch.cuda.is_available():
+        cli.trainer = cli.trainer.__class__(
+            accelerator="gpu",
+            devices=1,
+            precision=16,
+            strategy="single_device",
+            default_root_dir=cli.trainer.default_root_dir,
+            callbacks=cli.trainer.callbacks,
+            logger=cli.trainer.logger,
+            max_epochs=cli.trainer.max_epochs,
+            min_epochs=cli.trainer.min_epochs,
+            enable_checkpointing=cli.trainer.enable_checkpointing,
+            enable_progress_bar=cli.trainer.enable_progress_bar,
+            num_nodes=cli.trainer.num_nodes,
+            sync_batchnorm=cli.trainer.sync_batchnorm,
+            fast_dev_run=cli.trainer.fast_dev_run,
+            limit_val_batches=cli.trainer.limit_val_batches,
+        )
 
     cli.datamodule.set_patch_size(cli.model.get_patch_size())
 
