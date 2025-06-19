@@ -19,7 +19,11 @@ def main():
         save_config_overwrite=True,
         run=False,
         auto_registry=True,
-        parser_kwargs={"parser_mode": "omegaconf", "error_handler": None},
+        parser_kwargs={
+            "parser_mode": "omegaconf",
+            "error_handler": None,
+            "default_config_files": ["configs/regional_forecast.yaml"],
+        },
     )
     os.makedirs(cli.trainer.default_root_dir, exist_ok=True)
 
@@ -66,7 +70,7 @@ def main():
 
     # Run test and save results
     cli.trainer.test(cli.model, datamodule=cli.datamodule, ckpt_path="best")
-    
+
     # os.makedirs(f"{cli.trainer.default_root_dir}/metrics", exist_ok=True)
 
     # metrics = {
