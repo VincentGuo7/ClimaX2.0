@@ -39,6 +39,11 @@ def main():
     #     max_epochs=cli.trainer.max_epochs,
     # )
 
+    if torch.cuda.is_available():
+        cli.trainer.accelerator = "gpu"
+        cli.trainer.devices = 1
+        cli.trainer.precision = 16
+
     cli.datamodule.set_patch_size(cli.model.get_patch_size())
 
     normalization = cli.datamodule.output_transforms
