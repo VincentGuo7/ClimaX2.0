@@ -35,7 +35,6 @@ def main():
             accelerator="gpu",
             devices=1,
             precision=16,
-            strategy="single_device",
             default_root_dir=cli.trainer.default_root_dir,
             callbacks=cli.trainer.callbacks,
             logger=cli.trainer.logger,
