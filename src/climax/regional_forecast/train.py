@@ -41,7 +41,6 @@ def main():
             logger=cli.trainer.logger,
             max_epochs=cli.trainer.max_epochs,
             min_epochs=cli.trainer.min_epochs,
-            enable_progress_bar=cli.trainer.enable_progress_bar,
             num_nodes=cli.trainer.num_nodes,
             sync_batchnorm=cli.trainer.sync_batchnorm,
             fast_dev_run=cli.trainer.fast_dev_run,
