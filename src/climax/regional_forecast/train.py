@@ -27,22 +27,17 @@ def main():
     )
     os.makedirs(cli.trainer.default_root_dir, exist_ok=True)
 
-    # # Force root_device to GPU to avoid the error
-    # if torch.cuda.is_available():
-    #     cli.trainer = cli.trainer.__class__(
-    #     accelerator="gpu",
-    #     devices=1,
-    #     precision=16,
-    #     default_root_dir=cli.trainer.default_root_dir,
-    #     callbacks=cli.trainer.callbacks,
-    #     logger=cli.trainer.logger,
-    #     max_epochs=cli.trainer.max_epochs,
-    # )
-
+    # Force root_device to GPU to avoid the error
     if torch.cuda.is_available():
-        cli.trainer.accelerator = "gpu"
-        cli.trainer.devices = 1
-        cli.trainer.precision = 16
+        cli.trainer = cli.trainer.__class__(
+        accelerator="gpu",
+        devices=1,
+        precision=16,
+        default_root_dir=cli.trainer.default_root_dir,
+        callbacks=cli.trainer.callbacks,
+        logger=cli.trainer.logger,
+        max_epochs=cli.trainer.max_epochs,
+    )
 
     cli.datamodule.set_patch_size(cli.model.get_patch_size())
 
