@@ -23,17 +23,17 @@ def main():
     )
     os.makedirs(cli.trainer.default_root_dir, exist_ok=True)
 
-    # Force root_device to GPU to avoid the error
-    if torch.cuda.is_available():
-        cli.trainer = cli.trainer.__class__(
-        accelerator="gpu",
-        devices=1,
-        precision=16,
-        default_root_dir=cli.trainer.default_root_dir,
-        callbacks=cli.trainer.callbacks,
-        logger=cli.trainer.logger,
-        max_epochs=cli.trainer.max_epochs,
-    )
+    # # Force root_device to GPU to avoid the error
+    # if torch.cuda.is_available():
+    #     cli.trainer = cli.trainer.__class__(
+    #     accelerator="gpu",
+    #     devices=1,
+    #     precision=16,
+    #     default_root_dir=cli.trainer.default_root_dir,
+    #     callbacks=cli.trainer.callbacks,
+    #     logger=cli.trainer.logger,
+    #     max_epochs=cli.trainer.max_epochs,
+    # )
 
     cli.datamodule.set_patch_size(cli.model.get_patch_size())
 
@@ -49,31 +49,34 @@ def main():
     torch.cuda.empty_cache()
 
     # fit() runs the training
-    checkpoint_path = os.path.join(cli.trainer.default_root_dir, "checkpoints", "last.ckpt")
-
-    if os.path.exists(checkpoint_path):
-        cli.trainer.fit(cli.model, datamodule=cli.datamodule, ckpt_path=checkpoint_path)
-        print(f"✅ Resumed training from checkpoint: {checkpoint_path}")
-    else:
-        cli.trainer.fit(cli.model, datamodule=cli.datamodule)
-        print("🚀 Starting training from scratch (no checkpoint found).")
-
-    # cli.trainer.fit(cli.model, datamodule=cli.datamodule)
+    cli.trainer.fit(cli.model, datamodule=cli.datamodule)
     # cli.trainer.fit(cli.model, datamodule=cli.datamodule, ckpt_path="/workspace/climax_logs/checkpoints/last.ckpt")
+
+
+    # checkpoint_path = os.path.join(cli.trainer.default_root_dir, "checkpoints", "last.ckpt")
+
+    # if os.path.exists(checkpoint_path):
+    #     cli.trainer.fit(cli.model, datamodule=cli.datamodule, ckpt_path=checkpoint_path)
+    #     print(f"✅ Resumed training from checkpoint: {checkpoint_path}")
+    # else:
+    #     cli.trainer.fit(cli.model, datamodule=cli.datamodule)
+    #     print("🚀 Starting training from scratch (no checkpoint found).")
+
 
 
     # Run test and save results
     cli.trainer.test(cli.model, datamodule=cli.datamodule, ckpt_path="best")
-    os.makedirs(f"{cli.trainer.default_root_dir}/metrics", exist_ok=True)
+    
+    # os.makedirs(f"{cli.trainer.default_root_dir}/metrics", exist_ok=True)
 
-    metrics = {
-        k: v.item() if isinstance(v, torch.Tensor) else v
-        for k, v in cli.model.test_metrics.items()
-    }
+    # metrics = {
+    #     k: v.item() if isinstance(v, torch.Tensor) else v
+    #     for k, v in cli.model.test_metrics.items()
+    # }
 
-    results_path = os.path.join(cli.trainer.default_root_dir, "metrics", "test_metrics_3days_10epochs.csv")
-    pd.DataFrame([metrics]).to_csv(results_path, index=False)
-    print(f"\n✅ Test metrics saved to: {results_path}")
+    # results_path = os.path.join(cli.trainer.default_root_dir, "metrics", "test_metrics_3days_3epochs.csv")
+    # pd.DataFrame([metrics]).to_csv(results_path, index=False)
+    # print(f"\n✅ Test metrics saved to: {results_path}")
 
     # test_results = cli.trainer.test(cli.model, datamodule=cli.datamodule, ckpt_path="best")
 
