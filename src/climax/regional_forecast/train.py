@@ -21,11 +21,7 @@ def main():
         save_config_overwrite=True,
         run=False,
         auto_registry=True,
-        parser_kwargs={
-            "parser_mode": "omegaconf",
-            "error_handler": None,
-            "default_config_files": ["configs/regional_forecast.yaml"],
-        },
+        parser_kwargs={"parser_mode": "omegaconf", "error_handler": None},
     )
     os.makedirs(cli.trainer.default_root_dir, exist_ok=True)
 
@@ -80,7 +76,7 @@ def main():
         for k, v in cli.model.test_metrics.items()
     }
 
-    results_path = os.path.join(cli.trainer.default_root_dir, "metrics", "test_metrics_3days_3epochs.csv")
+    results_path = os.path.join(cli.trainer.default_root_dir, "metrics", "test_metrics_3days_10epochs.csv")
     pd.DataFrame([metrics]).to_csv(results_path, index=False)
     print(f"\n✅ Test metrics saved to: {results_path}")
 

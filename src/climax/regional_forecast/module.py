@@ -216,7 +216,7 @@ class RegionalForecastModule(LightningModule):
             values = [v if isinstance(v, Tensor) else tensor(v) for v in [o[key] for o in outputs]]
             avg_metrics[key] = torch.stack(values).mean()
 
-        # Log all as test_epoch/... metrics
+        self.test_metrics = avg_metrics  # store for later access
         for k, v in avg_metrics.items():
             self.log(f"test_epoch/{k}", v)
 
