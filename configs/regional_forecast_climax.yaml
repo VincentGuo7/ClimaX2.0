@@ -14,7 +14,7 @@ trainer:
   strategy: single_device
 
   min_epochs: 1
-  max_epochs: 100
+  max_epochs: 85
   enable_progress_bar: true
 
   sync_batchnorm: False
@@ -70,7 +70,7 @@ model:
   beta_2: 0.99
   weight_decay: 1e-5
   warmup_epochs: 5
-  max_epochs: 100
+  max_epochs: 85
   warmup_start_lr: 1e-8
   eta_min: 1e-8
   pretrained_path: ""
