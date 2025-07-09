@@ -76,7 +76,7 @@ def main():
         for k, v in cli.model.test_metrics.items()
     }
 
-    results_path = os.path.join(cli.trainer.default_root_dir, "metrics", "test_metrics_5days_70epochs.csv")
+    results_path = os.path.join(cli.trainer.default_root_dir, "metrics", "test_metrics_7days_70epochs.csv")
     pd.DataFrame([metrics]).to_csv(results_path, index=False)
     print(f"\n✅ Test metrics saved to: {results_path}")
 

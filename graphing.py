@@ -32,12 +32,15 @@ import numpy as np
 # ________________________________________________
 
 # Example data
-x = [10, 20, 30, 50, 70, 71, 73, 75, 85, 100]
-y1 = [96.08468, 91.83526, 89.63392, 89.29365, 88.546097, 94.23267, 94.661125, 96.470657, 95.491066, 94.857666]
+# x = [10, 20, 30, 50, 70, 71, 73, 75, 85, 100]
+# y1 = [96.08468, 91.83526, 89.63392, 89.29365, 88.546097, 94.23267, 94.661125, 96.470657, 95.491066, 94.857666]
+x = [20, 30, 50, 70, 71, 73, 75, 85]
+y1 = [91.83526, 89.63392, 89.29365, 88.546097, 94.23267, 94.661125, 96.470657, 95.491066]
+
 
 # Create the plot
 plt.figure(figsize=(10, 6))
-plt.plot(x, y1, label='1 Day Prediction', marker='o', color='blue', markerfacecolor='blue', markeredgecolor='blue')
+plt.plot(x, y1, marker='o', color='blue', markerfacecolor='blue', markeredgecolor='blue')
 
 
 # Add labels, legend, and title
@@ -45,7 +48,7 @@ plt.xlabel('Training epochs')
 plt.xticks(x)
 plt.ylabel('Model Performace (w_rmse)')
 # plt.title('Three Series on the Same Plot')
-plt.legend()
+# plt.legend()
 plt.grid(True)
 
 # Save the figure
